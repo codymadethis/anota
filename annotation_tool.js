@@ -397,17 +397,13 @@ class AnnotationTool {
                 console.log('Pin clicked after pan, recentering');
                 this.panToPin(pin);
                 this.hasPanned = false;
-                // Show the text div and hide the textarea
-                const textarea = comment.querySelector('textarea');
-                const textDiv = comment.querySelector('.comment-text');
-                if (textarea && textDiv) {
-                    textarea.style.display = 'none';
-                    textDiv.style.display = 'block';
-                }
-            } else {
-                // Zoom out if we haven't panned
-                console.log('Pin clicked, zooming out');
-                this.zoomOut();
+            }
+            // Show the text div and hide the textarea
+            const textarea = comment.querySelector('textarea');
+            const textDiv = comment.querySelector('.comment-text');
+            if (textarea && textDiv) {
+                textarea.style.display = 'none';
+                textDiv.style.display = 'block';
             }
         } else {
             // Zoom to this pin
