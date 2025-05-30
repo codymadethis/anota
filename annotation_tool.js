@@ -1366,9 +1366,12 @@ window.addEventListener('DOMContentLoaded', function() {
             const mainContainer = document.querySelector('.main-container');
 
             if (annotationImage && imageAnnotationWrapper && toolbar && topNav && annotationsLayer && dropZone && appFileInput && mainContainer) {
-                if (!topNav) {
-                    console.warn('topNav is missing, but continuing.');
-                }
+                // Initialize the annotation tool first
+                window.annotationTool = new AnnotationTool();
+                
+                // Store the image data in the tool instance BEFORE setting the image source
+                window.annotationTool.uploadedImageData = imageData;
+                
                 // Set up drag and drop handlers immediately
                 dropZone.addEventListener('dragover', (e) => {
                     e.preventDefault();
@@ -1384,7 +1387,9 @@ window.addEventListener('DOMContentLoaded', function() {
                     if (file?.type.startsWith('image/')) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            annotationImage.src = e.target.result;
+                            const newImageData = e.target.result;
+                            window.annotationTool.uploadedImageData = newImageData;
+                            annotationImage.src = newImageData;
                         };
                         reader.readAsDataURL(file);
                     }
@@ -1396,7 +1401,9 @@ window.addEventListener('DOMContentLoaded', function() {
                     if (file) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
-                            annotationImage.src = e.target.result;
+                            const newImageData = e.target.result;
+                            window.annotationTool.uploadedImageData = newImageData;
+                            annotationImage.src = newImageData;
                         };
                         reader.readAsDataURL(file);
                     }
@@ -1413,10 +1420,6 @@ window.addEventListener('DOMContentLoaded', function() {
                     if (topNav) topNav.style.display = 'block';
                     annotationsLayer.style.display = 'block';
                     console.log('Image loaded and UI shown.');
-                    // Now initialize the annotation tool
-                    window.annotationTool = new AnnotationTool();
-                    // Store the image data in the tool instance
-                    window.annotationTool.uploadedImageData = imageData;
                     // Ensure the tool is in the correct initial state
                     window.annotationTool.setMode('move');
                 };
