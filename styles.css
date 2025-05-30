@@ -1,0 +1,1032 @@
+:root {
+    /* Primary Colors */
+    --primary-color: #021FFF;
+    --primary-light: #6476fe;
+    --primary-dark: #06147d;
+    
+    /* Semantic Colors */
+    --success-color: #00c853;
+    --error-color: #EA0052;
+    --warning-color: #EA7D00;
+    
+    /* UI Colors */
+    --bg-color: #E7E6EB;
+    --surface-color: #ffffff;
+    --toolbar-bg: rgba(255, 255, 255, 0.80);
+    --dropzone-bg: #eeeef0;
+    --dropzone-hover: #f0f7ff;
+    
+    /* Text Colors */
+    --text-primary: #000000;
+    --text-secondary: #888692;
+    --text-placeholder: #999999;
+    
+    /* Border & Shadow Colors */
+    --border-color: #bbbbbb;
+    --shadow-color: rgba(0, 0, 0, 0.12);
+    --shadow-color-light: rgba(0, 0, 0, 0.1);
+    --shadow-color-dark: rgba(0, 0, 0, 0.15);
+    
+    /* Overlay Colors */
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --overlay-light: rgba(255, 255, 255, 0.475);
+
+    /* Color Picker Presets */
+    --color-preset-1: #6615fc;  /* Success Green */
+    --color-preset-2: #9ff80f;  /* Error Red */
+    --color-preset-3: #EA7D00;  /* Warning Orange */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: block;
+    font-family: "Mona Sans", sans-serif;
+    font-optical-sizing: auto;
+    background: var(--bg-color);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+svg {
+    color: var(--text-secondary);
+    fill: var(--text-secondary);
+}
+
+p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+h2{
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+#homelink{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    gap: 2px;
+    padding: 1rem 2rem;
+    background: var(--bg);
+    top: 0;
+    z-index: 100;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.logo-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 0.5rem;
+}
+
+.main-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-top: 60px; /* Add padding to account for navbar */
+}
+
+.toolbar,
+.color-picker-menu,
+.custom-color-picker,
+.share-popup,
+.picker_wrapper,
+.zoom-btn {
+    background-color: var(--toolbar-bg) !important;
+    box-shadow: 0px 0px 16px 0px var(--shadow-color);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    isolation: isolate;
+}
+
+.toolbar {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px;
+    border-radius: 12px;
+    display: flex;
+    gap: 12px;
+    z-index: 1000;
+    align-items: center;
+}
+
+.tool-btn {
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.tool-btn:hover {
+    background: var(--overlay-light);
+    color: var(--text-primary);
+}
+
+.tool-btn.active {
+    background: var(--primary-color);
+    color: var(--surface-color);
+}
+
+.tool-btn img {
+    width: 24px;
+    height: 24px;
+}
+
+.tool-btn.active img {
+    filter: brightness(0) invert(1);
+}
+
+@keyframes pulse-border {
+    0% { border-color: #ffffff; }
+    80% { border-color: var(--black-color); }
+    100% { border-color: #ffffff; }
+}
+
+.drop-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
+    background: var(--dropzone-bg);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    min-height: 200px;
+    width: auto;
+    height: auto;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.drop-zone:hover {
+    border-color: var(--primary-color) !important;
+    border-radius: 24px !important;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+    opacity: 1 !important;
+    z-index: 2;
+}
+
+.drop-zone.dragover {
+    border-color: var(--primary-color) !important;
+    border-radius: 24px !important;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+    opacity: 1 !important;
+    z-index: 2;
+}
+
+.upload-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.upload-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+}
+
+.upload-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.upload-button {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-button:hover {
+    background: var(--color-primary-dark);
+}
+
+.subtitle {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Styles for the image container in the normal (non-zoomed) flow */
+.image-container {
+    position: relative;
+    width: fit-content;   /* Set your desired fixed width */
+    height: fit-content;  /* Set your desired fixed height */
+    max-width: none;
+    max-height: none;
+    margin: auto;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--overlay-light);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 40px var(--shadow-color-light);
+    z-index: 1;
+    will-change: transform;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-container.panning {
+    /* Existing styles */
+    cursor: grabbing;
+    transition: none; /* Disable transition while panning for responsiveness */
+}
+
+.image-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    z-index: 900;
+    pointer-events: none;
+    transition: background-color 0.3s ease;
+    min-width: 0;
+    min-height: 0;
+}
+
+.image-wrapper.active {
+    background: rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
+}
+
+/* Note: There are two .image-container rules. The second one appears to be for the zoomed overlay state. */
+/* I will keep both but they might need review for conflicts or clarity. */
+.image-container.image-loaded {
+    display: flex;
+}
+
+.image-container img {
+    max-width: 100%;
+    max-height: 100vh;
+    display: block;
+    margin: auto;
+}
+
+#annotationImage {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.image-container.image-loaded #annotationImage {
+    display: block;
+}
+
+/* Note: Duplicate .image-container img rule. Keeping but it might cause unexpected behavior. */
+.image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+.image-annotation-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+#annotationImage {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain; /* or cover, depending on your needs */
+}
+
+.annotations-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: all;
+    z-index: 1;
+    cursor: crosshair;
+}
+
+.annotation-pin {
+    position: absolute;
+    pointer-events: auto;
+    z-index: 10;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    box-shadow: 0 2px 5px var(--shadow-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    will-change: transform, left, top;
+    transition: z-index 0.2s, opacity 0.2s;
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+
+.image-container.zoomed .annotation-pin {
+    z-index: 101;
+}
+
+.annotation-pin.dragging {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    transition: none;
+    cursor: grabbing;
+    z-index: 1000;
+}
+
+.annotation-pin:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.annotation-pin::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: var(--error-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.4;
+    z-index: -1;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.annotation-pin:hover::before,
+.annotation-pin.active::before {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+}
+
+.annotation-pin.active {
+    z-index: 1001 !important;
+    transform: translate(-50%, -50%) scale(1.2);
+    background: var(--error-color);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.annotation-pin.dimmed {
+    opacity: 0.3;
+    transition: opacity 0.2s;
+}
+
+.annotation-comment {
+    position: absolute;
+    z-index: 2147483647;
+    background: var(--surface-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--shadow-color-light);
+    padding: 4px;
+    width: 150px;
+    opacity: 0;
+    visibility: hidden;
+    top: 50%;
+    transform: translate(0, -50%) scale(0.95);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+    transform-origin: 0 0;
+}
+
+.annotation-comment.opens-right {
+    left: 100%;
+    right: auto;
+    /* Desktop spacing right, including vertical translate and scale */
+    transform: translate(8px, -50%) scale(1); 
+}
+
+.annotation-comment.opens-left {
+    left: auto;
+    right: 100%;
+    /* Desktop spacing left, including vertical translate and scale */
+    transform: translate(-8px, -50%) scale(1); 
+}
+
+.annotation-comment.open {
+    opacity: 1;
+    visibility: visible;
+    /* transform is handled by opens-left/right when open */
+    /* transition is defined on base .annotation-comment */
+    pointer-events: auto;
+    z-index: 1002 !important;
+}
+
+.annotation-comment textarea {
+    width: 100%;
+    min-height: 40px;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    resize: vertical;
+    font-size: 12px;
+    line-height: 1.4;
+    outline: none;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text-primary);
+}
+
+.annotation-comment textarea::placeholder {
+    color: var(--text-placeholder);
+}
+
+.comment-text {
+    font-size: 12px;
+    line-height: 1.4;
+    margin-bottom: 0;
+    word-wrap: break-word;
+    color: var(--text-primary);
+    padding: 4px;
+    background: none;
+    border-radius: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.resize-handle {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 12px;
+    height: 12px;
+    cursor: se-resize;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    padding: 4px;
+    transform: rotate(-45deg);
+}
+
+.resize-handle::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 6px;
+    height: 2px;
+    background: #999;
+    transform: translate(-50%, -50%);
+}
+
+.resize-handle::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 2px;
+    height: 6px;
+    background: #999;
+    transform: translate(-50%, -50%);
+}
+
+.annotation-comment:hover .resize-handle {
+    opacity: 1;
+}
+
+.resize-handle:hover::before,
+.resize-handle:hover::after {
+    background: var(--primary-color);
+}
+
+.annotation-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 4px;
+}
+
+/* Cursor styles for different modes */
+body.mode-move #annotationsLayer {
+    cursor: grab;
+}
+
+body.mode-move #annotationsLayer:active {
+    cursor: grabbing;
+}
+
+body.mode-move .annotation-pin {
+    cursor: move;
+}
+
+body.mode-comment #annotationsLayer {
+    cursor: auto;
+}
+
+/* Color picker menu styles */
+.color-picker-menu {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    position: fixed;
+    left: 50%;
+    bottom: 100px;
+    transform: translateX(-50%);
+    width: auto;
+    padding: 10px;
+    border-radius: 30px;
+    z-index: 2000;
+    flex-direction: row;
+    gap: 8px;
+    
+}
+
+.color-option {
+    width: 24px;
+    height: 24px;
+    /* Remove flex and margin */
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+.color-option.active {
+    border-color: #fff;
+    box-shadow: 0 0 0 2px #000;
+}
+
+.color-option.add-color-option {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.top-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--toolbar-bg);
+    backdrop-filter: blur(8px);
+    padding: 12px 20px;
+    z-index: 1000;
+    display: none;
+    height: 50px; /* Fixed height for navbar */
+}
+
+.top-nav a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.top-nav a:hover {
+    opacity: 0.8;
+}
+
+.top-nav svg {
+    width: 20px;
+    height: 20px;
+}
+
+.delete-annotation {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    background: var(--surface-color);
+    border: none;
+    border-radius: 50%;
+    color: var(--text-primary);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px var(--shadow-color-dark);
+    transition: all 0.2s ease;
+    z-index: 10;
+}
+
+.annotation-comment.small-text textarea,
+.annotation-comment.small-text .comment-text {
+    font-size: 10px; /* Smaller font size for long text */
+    line-height: 1.3; 
+}
+
+/* Keep the default font size for comments that are not long */
+.annotation-comment textarea,
+.comment-text {
+    font-size: 12px; /* Default font size */
+    line-height: 1.4;
+    /* ... other existing styles ... */
+}
+
+@media (max-width: 768px) {
+    /* Ensure main-container padding is correct if it was changed unintentionally */
+    .main-container {
+        padding-top: 60px; /* Keep padding for navbar */
+        padding-left: 20px; /* Restore default padding */
+        padding-right: 20px; /* Restore default padding */
+    }
+
+    .image-container{
+        height: fit-content;
+        max-height: auto;
+    }
+
+    .annotation-comment {
+        width: 100px; /* Mobile width */
+        padding: 2px; /* Mobile padding */
+        border-radius: 6px;
+        /* Transforms are handled by opens-left/right within this media query */
+        /* Ensure no conflicting transform here */
+        transform: scale(0.95); /* Just initial scale */
+    }
+
+    .annotation-comment.opens-right {
+         transform: translate(2px, -50%) scale(1); /* Reduced spacing right on mobile */
+    }
+
+    .annotation-comment.opens-left {
+         transform: translate(-2px, -50%) scale(1); /* Reduced spacing left on mobile */
+    }
+
+    .annotation-comment textarea,
+    .comment-text {
+        /* Mobile font size for normal text */
+        font-size: 8px; 
+        padding: 2px;
+        line-height: 1.4;
+    }
+
+    /* Smaller font size for long text on mobile */
+    .annotation-comment.small-text textarea,
+    .annotation-comment.small-text .comment-text {
+        font-size: 8px; /* Even smaller font size for long text on mobile, if 10px is too large */
+        line-height: 1.3;
+    }
+
+    .annotation-pin {
+        width: 10px;
+        height: 10px;
+    }
+
+    .delete-annotation {
+        width: 12px;
+        height: 12px;
+        font-size: 10px;
+        top: -4px;
+        right: -4px;
+    }
+
+    .zoom-controls{
+        position: fixed;
+        top: 100%;
+        right: 16px;
+    }
+}
+
+/* Custom Color Picker */
+.custom-color-picker {
+    position: absolute;
+    top: -60px;
+    right: 0;
+    left: 0;
+    border-radius: 80px;
+    padding: 12px;
+    z-index: 1002;
+    box-shadow: 0px 0px 16px 0px rgba(0, 0, 0, 0.12);
+    transform: translateZ(0);
+}
+
+/* Sample vanilla-picker CSP customization */
+.picker_wrapper {
+    border-radius: 16px !important;
+    border: none !important;
+    pointer-events: auto !important;
+}
+.picker_slider, .picker_selector {
+    border-radius: 8px !important;
+    pointer-events: auto !important;
+}
+.picker_editor input {
+    font-size: 14px !important;
+    border-radius: 6px !important;
+    padding: 4px 8px !important;
+    pointer-events: auto !important;
+}
+
+.picker_sl{
+    border-radius: 8px !important;
+    pointer-events: auto !important;
+}
+
+.picker_editor, 
+.picker_sample {
+    display: none !important;
+}
+
+#vanillaPickerPopup {
+    position: fixed !important;
+    border: none !important;
+    left: 50% !important;
+    top: 40% !important;
+    transform: translateX(-50%) !important;
+    z-index: 4000 !important;
+    pointer-events: auto !important;
+}
+
+.picker_done {
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    flex: 1;
+}
+
+.picker_done button {
+    background-color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    width: 100% !important;
+    background-image: none !important;
+    background: #fff !important;
+    color: var(--text-primary) !important;
+    padding: 8px 16px !important;
+    font-size: 14px !important;
+    pointer-events: auto !important;
+    cursor: pointer !important;
+}
+
+/* Animated SVG border for drop zone */
+.drop-zone-border {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
+.drop-zone-border rect {
+    fill: none;
+    stroke: var(--primary-color);
+    stroke-width: 3;
+    stroke-dasharray: 1200;
+    stroke-dashoffset: 0;
+    rx: 24; ry: 24;
+    animation: border-trail 2s linear infinite;
+}
+
+@keyframes border-trail {
+    0% { stroke-dashoffset: 1200; }
+    100% { stroke-dashoffset: 0; }
+}
+
+#landingSection.drag-active .bento-left,
+#landingSection.drag-active .bento-right {
+    opacity: 1;
+}
+#landingSection .drop-zone {
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    gap: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+#landingSection .drop-zone:hover {
+    border-color: var(--primary-color) !important;
+    border-radius: 24px !important;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+    opacity: 1 !important;
+    z-index: 2;
+}
+
+#landingSection.drag-active .drop-zone {
+    border-color: var(--primary-color) !important;
+    border-radius: 24px !important;
+    transform: scale(1.03);
+    transition: all 0.3s ease-in-out;
+    opacity: 1 !important;
+    z-index: 2;
+}
+
+#viewOnlyBadge{
+    display: flex;
+}
+
+.view-only-badge {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: fit-content;
+    vertical-align: middle;
+    row-gap: 1rem;
+    top: 20px;
+    right: 32px;
+    background-color: var(--toolbar-bg) !important;
+    backdrop-filter: blur(16px);
+    color: #000;
+    font-size: 0.5rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 24px;
+    z-index: 2001;
+    letter-spacing: 1px;
+    pointer-events: none;
+    user-select: none;
+}
+
+.badge-eye-icon {
+    width: 12px;
+    height: 12px;
+    vertical-align: middle;
+     /* makes icon white if it's a black SVG */
+}
+
+.share-popup {
+    display: none;
+    position: fixed;
+    left: 50%;
+    bottom: 90px;
+    transform: translateX(-50%);
+    background: var(--toolbar-bg);
+    box-shadow: 0px 0px 16px 0px var(--shadow-color);
+    border-radius: 16px;
+    padding: 8px 8px;
+    align-items: center;
+    gap: 8px;
+    z-index: 2002;
+    font-size: 1rem;
+    color: var(--text-primary);
+    min-width: 220px;
+    max-width: 90vw;
+    overflow-x: auto;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.share-link-text {
+    font-family: 'Mona Sans', 'Inter', Arial, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--color-background);
+    background: var(--surface-color);
+    border-radius: 8px;
+    padding: 8px 8px;
+    max-width: 300px;
+    overflow-x: auto;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    word-break: break-all;
+    display: inline-block;
+}
+
+.copy-link-btn {
+    background: var(--surface-color);
+    border: none;
+    border-radius: 8px;
+    padding: 8px 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: background 0.2s, color 0.2s;
+}
+.copy-link-btn:hover {
+    background: var(--primary-color-light, #6476fe);
+}
+.copy-link-btn.copied {
+    background: var(--success-color, #00c853) !important;
+    color: #fff;
+    transition: background 0.3s, color 0.3s;
+}
+.copy-link-btn.copied img {
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s;
+}
+
+.copy-status {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-left: 8px;
+    font-size: 0.95em;
+    transition: opacity 0.2s;
+}
+
+#shareLinkText {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: unset;
+  word-break: break-all;
+  max-width: none;
+  display: inline;
+}
+
+#colorPickerMenu {
+  z-index: 3001 !important;
+}
+#vanillaPickerPopup {
+  z-index: 4000 !important;
+}
+
+.zoom-controls {
+  position: fixed;
+  top: 70%;
+  right: 32px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.zoom-btn {
+  font-size: 1.5rem;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 16px 0px var(--shadow-color);
+  transition: background 0.2s, filter 0.2s;
+}
+
+.zoom-btn img {
+  width: 16px;
+  height: 16px;
+  transition: filter 0.2s;
+}
+
+.zoom-btn:active, .zoom-btn:focus {
+  background-color: var(--primary-color);
+  outline: none;
+  transition: background 0.2s, filter 0.2s;
+}
+
+
+#zoomResetBtn {
+  font-size: 1.3rem;
+}
+
+

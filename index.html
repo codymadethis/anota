@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Anota - Simple image annotation tool for instant feedback">
+    <meta name="theme-color" content="#021FFF">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#021FFF">
+    <title>Anota - Image Annotation Tool</title>
+    
+    <!-- Preload critical assets -->
+    <link rel="preload" href="styles.css" as="style">
+    <link rel="preload" href="landing.css" as="style">
+    <link rel="preload" href="annotation_tool.js" as="script">
+    <link rel="preload" href="assets/icons/logo.svg" as="image">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="https://unpkg.com/vanilla-picker@2.12.1/dist/vanilla-picker.csp.css">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mona+Sans:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/vanilla-picker@2.12.1/dist/vanilla-picker.csp.min.js" defer></script>
+    <script src="annotation_tool.js" defer></script>
+    
+    <!-- PWA Support -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+</head>
+<body>
+    <div class="header" id="topNav">
+        <div class="logo">
+            <a id="homeLink" href="index.html">
+                <img src="/assets/icons/logo.svg" alt="Anota Logo" class="logo-icon" />
+                <h2>Anota</h2>
+            </a>
+        </div>
+    </div>
+
+    <!-- Landing Section -->
+    <main id="landingSection">
+        <div class="bento-main">
+            <div class="bento-left">
+              <h1 class="bento-headline">The no-login feedback tool for modern teams.</h1>
+              <p class="bento-subhead">Anyone can leave comments on images in seconds. Just drop, annotate, and share.</p>
+              <div id="landingDropZone" class="upload-box drop-zone">
+                <div class="upload-icon"> <img src="/assets/icons/photo-upload.svg" alt="Upload" class="upload-svg" /></div>
+                <div><h3>Drag and drop your file here</h3></div>
+                <div><p class="subtitle">PNG, JPEG, WEBP - Max Image Size 10MB</p></div>
+                <input type="file" id="landingFileInput" style="display:none" accept="image/*">
+                <button class="upload-button">Choose File</button>
+              </div>
+            </div>
+            <div class="bento-right">
+              <div class="bento-features">
+                <div class="bento-card">
+                  <h3 class="highlight-blue">No Fluff. Just Focus.</h3>
+                  <p>No accounts. No integrations. Just drop an image and get to work.</p>
+                  <div class="card-illustration"><img src="/assets/images/simple@3x.png" alt="No Fluff"></div>
+                </div>
+                <div class="bento-card">
+                  <h3 class="highlight-green">Click. Comment. Done.</h3>
+                  <p>Click anywhere to leave a comment. Like sticky notes but smarter.</p>
+                  <div class="card-illustration"><img src="/assets/images/comment@3x.png" alt="Comment"></div>
+                </div>
+                <div class="bento-card">
+                  <h3 class="highlight-purple">Built For Fast-Moving Teams.</h3>
+                  <p>Built for devs, designers, and solo builders who hate overkill tools.</p>
+                  <div class="card-illustration"><img src="/assets/images/team@3x.png" alt="Teams"></div>
+                </div>
+                <div class="bento-card">
+                  <h3 class="highlight-yellow">Instantly Share With Your Team.</h3>
+                  <p>All your feedback lives inside the URL. No servers. No clutter.</p>
+                  <div class="card-illustration"><img src="/assets/images/link@3x.png" alt="Share"></div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- App Section (hidden by default) -->
+    <div id="appSection" style="display:none;">
+        <div class="top-nav" id="topNav">
+            <a href="#" class="logo" id="homeLink">
+                <img src="logo.svg" alt="Anota Logo" class="logo-icon" />
+                <span class="logo-text">Anota</span>
+            </a>
+        </div>
+        <div id="viewOnlyBadge" class="view-only-badge">
+            <img src="assets/icons/eye.svg" alt="View Only" class="badge-eye-icon" />
+            View Only
+        </div>
+        <div class="main-container">
+            <div class="image-annotation-wrapper" style="position: relative; display: inline-block;">
+                <img id="annotationImage" src="" alt="Uploaded image" style="display: none;">
+                <div id="annotationsLayer" class="annotations-layer"></div>
+            </div>
+            <div id="dropZone" class="drop-zone" style="display:none;">
+                <input type="file" id="fileInput" style="display:none" accept="image/*">
+                <div>Drag and drop or click to upload a new image</div>
+            </div>
+        </div>
+        <!-- Zoom controls only visible in app section -->
+        <div class="zoom-controls" id="zoomControls">
+            <button id="zoomInBtn" title="Zoom In" class="zoom-btn"><img src="assets/icons/plus.svg" alt="Zoom In Icon"></button>
+            <button id="zoomOutBtn" title="Zoom Out" class="zoom-btn"><img src="assets/icons/minus.svg" alt="Zoom Out Icon"></button>
+            <button id="zoomResetBtn" title="Reset Zoom" class="zoom-btn"><img src="assets/icons/restore.svg" alt="Reset Zoom Icon"></button>
+        </div>
+        <!-- Color picker, vanilla picker, etc. -->
+        <div class="color-picker-menu" id="colorPickerMenu" style="display: none;">
+            <button class="color-option active" data-color="var(--color-preset-1)" style="background-color: var(--color-preset-1);"></button>
+            <button class="color-option" data-color="var(--color-preset-2)" style="background-color: var(--color-preset-2);"></button>
+            <button class="color-option" data-color="var(--color-preset-3)" style="background-color: var(--color-preset-3);"></button>
+            <button class="color-option add-color-option" id="addColorBtn" title="Add Custom Color">
+                <svg width="28" height="28" viewBox="0 0 24 24"><path d="M12 7v10M7 12h10" stroke="#000" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+        </div>
+        <div id="vanillaPickerPopup" style="display:none; position:absolute; z-index:3000;"></div>
+    </div>
+
+    <!-- Move toolbar and share popup outside of appSection -->
+    <div class="toolbar" id="toolbar" style="display: none;">
+        <button id="moveBtn" class="tool-btn active" title="Move Mode">
+            <img src="assets/icons/cursor.svg" alt="Move Mode Icon">
+        </button>
+        <button id="commentBtn" class="tool-btn" title="Add Comment">
+            <img src="assets/icons/add-comment.svg" alt="Add Comment Icon">
+        </button>
+        <button id="shareBtn" class="tool-btn" title="Export/Share">
+            <img src="assets/icons/share.svg" alt="Share Icon">
+        </button>
+    </div>
+    <div id="sharePopup" class="share-popup" style="display:none;">
+        <span id="shareLinkText" class="share-link-text"></span>
+        <button id="copyLinkBtn" class="copy-link-btn" title="Copy Link">
+            <img id="copyIconImg" src="assets/icons/copy.svg" alt="Copy Link" style="width:20px;height:20px;vertical-align:middle;" />
+        </button>
+    </div>
+
+    <footer class="footer">
+        Built with caffeine &amp; love. &copy; Anota 2025
+    </footer>
+</body>
+</html>
