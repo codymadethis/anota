@@ -177,21 +177,29 @@ class AnnotationTool {
         this.showSharePopup('loading');
         try {
             window.focus();
+            
+            // Validate image data
+            if (!this.uploadedImageData) {
+                throw new Error('No image data available. Please upload an image first.');
+            }
+
             const response = await fetch('/.netlify/functions/share', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    image: this.uploadedImageData, // Use in-memory image data
+                    image: this.uploadedImageData,
                     annotations: this.annotations
                 })
             });
+
             if (!response.ok) {
                 const errorBody = await response.text();
                 console.error('Server error response:', errorBody);
                 throw new Error('Failed to create share');
             }
+
             const { id } = await response.json();
             const shareUrl = `${window.location.origin}/index.html?id=${id}`;
             this.lastShareUrl = shareUrl;
@@ -199,6 +207,11 @@ class AnnotationTool {
         } catch (error) {
             console.error('Error sharing:', error);
             this.showSharePopup('error');
+            // Show a more specific error message to the user
+            const shareLinkText = document.getElementById('shareLinkText');
+            if (shareLinkText) {
+                shareLinkText.textContent = error.message || 'Error generating link. Please try again.';
+            }
         }
     }
 
@@ -1121,8 +1134,23 @@ class AnnotationTool {
                     throw new Error('Share not found');
                 }
                 const { image, annotations } = await response.json();
-                this.annotationImage.src = image;
+                
+                // Ensure we have valid image data
+                if (!image) {
+                    throw new Error('No image data found in share');
+                }
+
+                // Set the image data before setting the src
                 this.uploadedImageData = image;
+                this.annotationImage.src = image;
+                
+                // Wait for the image to load before proceeding
+                await new Promise((resolve, reject) => {
+                    this.annotationImage.onload = resolve;
+                    this.annotationImage.onerror = reject;
+                });
+
+                // Show the UI elements
                 this.annotationImage.style.display = 'block';
                 this.dropZone.style.display = 'none';
                 this.imageAnnotationWrapper.style.display = 'block';
@@ -1130,8 +1158,12 @@ class AnnotationTool {
                 this.toolbar.style.display = 'flex';
                 if (this.topNav) this.topNav.style.display = 'block';
                 this.imageAnnotationWrapper.classList.add('image-loaded');
+
+                // Load annotations
                 this.annotations = annotations;
                 annotations.forEach(annotation => this.renderAnnotation(annotation));
+
+                // Show view-only badge
                 const viewOnlyBadge = document.getElementById('viewOnlyBadge');
                 if (viewOnlyBadge) {
                     viewOnlyBadge.style.display = 'block';
