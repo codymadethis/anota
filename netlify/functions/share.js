@@ -7,12 +7,25 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 exports.handler = async (event) => {
   if (event.httpMethod === 'POST') {
     const { image, annotations } = JSON.parse(event.body);
+    console.log('Received image data length:', image ? image.length : 'null');
+    console.log('Received image data type:', typeof image);
+    console.log('Received image data preview:', image ? image.substring(0, 100) + '...' : 'null');
+    
+    if (!image) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'No image data provided' }),
+        headers: { 'Access-Control-Allow-Origin': '*' }
+      };
+    }
+
     const { data, error } = await supabase
       .from('shares')
       .insert([{ image, annotations }])
       .select('id')
       .single();
     if (error) {
+      console.error('Supabase error:', error);
       return {
         statusCode: 500,
         body: JSON.stringify({ error: error.message }),

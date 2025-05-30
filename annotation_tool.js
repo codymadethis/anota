@@ -180,18 +180,26 @@ class AnnotationTool {
             
             // Validate image data
             if (!this.uploadedImageData) {
+                console.error('uploadedImageData is null or undefined');
                 throw new Error('No image data available. Please upload an image first.');
             }
+
+            console.log('Image data length:', this.uploadedImageData.length);
+            console.log('Image data type:', typeof this.uploadedImageData);
+            console.log('Image data preview:', this.uploadedImageData.substring(0, 100) + '...');
+
+            const requestBody = {
+                image: this.uploadedImageData,
+                annotations: this.annotations
+            };
+            console.log('Request body preview:', JSON.stringify(requestBody).substring(0, 100) + '...');
 
             const response = await fetch('/.netlify/functions/share', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    image: this.uploadedImageData,
-                    annotations: this.annotations
-                })
+                body: JSON.stringify(requestBody)
             });
 
             if (!response.ok) {
