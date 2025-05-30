@@ -83,6 +83,7 @@ class AnnotationTool {
     initialize() {
         console.log('AnnotationTool initialize');
         console.log('shareBtn in initialize:', document.getElementById('shareBtn'));
+        console.log('uploadedImageData in initialize:', this.uploadedImageData ? 'present' : 'missing');
         
         // Get DOM elements
         this.dropZone = document.getElementById('dropZone');
@@ -1379,6 +1380,9 @@ window.addEventListener('DOMContentLoaded', function() {
                 
                 // Store the image data in the tool instance BEFORE setting the image source
                 window.annotationTool.uploadedImageData = imageData;
+                
+                // Initialize the tool after setting the image data
+                window.annotationTool.initialize();
                 
                 // Set up drag and drop handlers immediately
                 dropZone.addEventListener('dragover', (e) => {
